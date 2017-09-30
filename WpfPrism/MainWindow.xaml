@@ -3,6 +3,51 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- 餐馆信息-->
+        <StackPanel Grid.Row="0">
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="欢迎光临-" FontSize="40"/>
+                <TextBlock Text="{Binding Restaurant.Name}" FontSize="40"  Foreground="HotPink" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="地址：" FontSize="40"/>
+                <TextBlock Text="{Binding Restaurant.Address}" FontSize="40" Foreground="HotPink" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" >
+                <TextBlock Text="电话：" FontSize="40"/>
+                <TextBlock Text="{Binding Restaurant.PhoneNumber}" FontSize="40" Foreground="HotPink" />
+            </StackPanel>
+        </StackPanel>
+        <!--菜品信息,选菜-->
+        <DataGrid Grid.Row="1" ItemsSource="{Binding DishMenu}" AutoGenerateColumns="False" GridLinesVisibility="All" CanUserDeleteRows="False" CanUserAddRows="False" >
+            <DataGrid.Columns>
+                <!-- 这4个来自(ViewModel )Dish属性，UI上一次读出，不会变-->
+                <DataGridTextColumn Header="菜名"  Binding="{Binding Dish.Name}" Width="120"/>
+                <DataGridTextColumn Header="种类"  Binding="{Binding Dish.Category}" Width="120"/>
+                <DataGridTextColumn Header="点评"  Binding="{Binding Dish.Comment}" Width="120"/>
+                <DataGridTextColumn Header="推荐指数"  Binding="{Binding Dish.Score}" Width="120"/>
+                <!--注意这个属性-->
+                <DataGridTemplateColumn Header="选中" SortMemberPath="IsSelected" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate >
+                            <CheckBox IsChecked="{Binding Path=IsSelected,UpdateSourceTrigger=PropertyChanged}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                      Command="{Binding Path=DataContext.SelectMenuItemCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type DataGrid}}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--所点菜品个数,点菜-->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" >
+            <TextBlock Text="点了几个菜？" TextAlignment="Center"  />
+            <TextBox IsReadOnly="True" Text="{Binding Count}" Width="120" TextAlignment="Center" />
+            <Button Content="点菜" Command="{Binding PlaceOrderCommand}"/>
+        </StackPanel>
     </Grid>
 </Window>
