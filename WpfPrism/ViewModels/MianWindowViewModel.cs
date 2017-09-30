@@ -11,6 +11,7 @@ namespace WpfPrism.ViewModels
 {
     class MianWindowViewModel:NotificationObject
     {
+        //餐厅信息
         private Restaurant restaurant;
         public Restaurant Restaurant
         {
@@ -22,7 +23,7 @@ namespace WpfPrism.ViewModels
                 RaisePropertyChanged("Restaurant");
             }
         }
-        //外加一个属性
+        //点菜统计
         private int count;
         public int Count
         {
@@ -34,6 +35,7 @@ namespace WpfPrism.ViewModels
                 RaisePropertyChanged("Count");
             }
         }
+        //菜单条目
         private List<DishMenuItemViewModel> dishMenu;
         public List<DishMenuItemViewModel> DishMenu
         {
